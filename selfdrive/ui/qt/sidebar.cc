@@ -66,6 +66,8 @@ void Sidebar::updateState(const UIState &s) {
     connectstatus = nanos_since_boot() - last_ping < 80e9 ? ItemStatus{"CONNECT\nONLINE", good_color} : ItemStatus{"CONNECT\nERROR", danger_color};
   }
   setProperty("connectStatus", QVariant::fromValue(connectstatus));
+  m_battery_img = deviceState.getBatteryStatus() == "Charging" ? 1 : 0;
+  m_batteryPercent = deviceState.getBatteryPercent();
 
   QColor tempColor = danger_color;
   auto ts = deviceState.getThermalStatus();
@@ -132,7 +134,8 @@ void Sidebar::paintEvent(QPaintEvent *event) {
     p.drawText(r, Qt::AlignCenter, net_type);
 
   // metrics
-  drawMetric(p, "TEMP", temp_status.first, temp_status.second, 355);
+  configFont(p, "Open Sans", 35, "Regular");
+  drawMetric(p, "온도", temp_status.first, temp_status.second, 355);
   drawMetric(p, panda_status.first, "", panda_status.second, 518);
   drawMetric(p, connect_status.first, "", connect_status.second, 676);
 }
