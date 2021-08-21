@@ -1,17 +1,19 @@
 from cereal import log
 from common.numpy_fast import clip, interp
-from selfdrive.controls.lib.pid import PIController
+from selfdrive.controls.lib.pid import LongPIController
 from selfdrive.controls.lib.drive_helpers import CONTROL_N
 from selfdrive.modeld.constants import T_IDXS
+from selfdrive.kegman_kans_conf import kegman_kans_conf
 
+kegman_kans = kegman_kans_conf()
 LongCtrlState = log.ControlsState.LongControlState
 
-STOPPING_EGO_SPEED = 0.5
+STOPPING_EGO_SPEED = 0.6
 STOPPING_TARGET_SPEED_OFFSET = 0.01
 STARTING_TARGET_SPEED = 0.5
 BRAKE_THRESHOLD_TO_PID = 0.2
 
-BRAKE_STOPPING_TARGET = 0.5  # apply at least this amount of brake to maintain the vehicle stationary
+BRAKE_STOPPING_TARGET = float(kegman_kans.conf['brakeStoppingTarget'])  # apply at least this amount of brake to maintain the vehicle stationary
 
 RATE = 100.0
 DEFAULT_LONG_LAG = 0.15
@@ -56,8 +58,9 @@ def long_control_state_trans(active, long_control_state, v_ego, v_target, v_pid,
 class LongControl():
   def __init__(self, CP, compute_gb):
     self.long_control_state = LongCtrlState.off  # initialized to off
-    self.pid = PIController((CP.longitudinalTuning.kpBP, CP.longitudinalTuning.kpV),
+    self.pid = LongPIController((CP.longitudinalTuning.kpBP, CP.longitudinalTuning.kpV),
                             (CP.longitudinalTuning.kiBP, CP.longitudinalTuning.kiV),
+                            (CP.longitudinalTuning.kfBP, CP.longitudinalTuning.kfV),
                             rate=RATE,
                             sat_limit=0.8,
                             convert=compute_gb)
@@ -72,7 +75,7 @@ class LongControl():
   def update(self, active, CS, CP, long_plan):
     """Update longitudinal control. This updates the state machine and runs a PID loop"""
     # Interp control trajectory
-    # TODO estimate car specific lag, use .15s for now
+    # TODO estimate car specific lag, use .5s for now
     if len(long_plan.speeds) == CONTROL_N:
       v_target = interp(DEFAULT_LONG_LAG, T_IDXS[:CONTROL_N], long_plan.speeds)
       v_target_future = long_plan.speeds[-1]

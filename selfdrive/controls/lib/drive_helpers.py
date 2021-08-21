@@ -2,14 +2,19 @@ from cereal import car
 from common.numpy_fast import clip, interp
 from common.realtime import DT_MDL
 from selfdrive.config import Conversions as CV
+from selfdrive.kegman_kans_conf import kegman_kans_conf
+from cereal import car
 from selfdrive.modeld.constants import T_IDXS
-
+from selfdrive.ntune import ntune_common_get
 
 # kph
+kegman_kans = kegman_kans_conf()
 V_CRUISE_MAX = 135
 V_CRUISE_MIN = 8
-V_CRUISE_DELTA = 8
-V_CRUISE_ENABLE_MIN = 40
+V_CRUISE_DELTA = int(kegman_kans.conf['CruiseDelta'])
+V_CRUISE_ENABLE_MIN = int(kegman_kans.conf['CruiseEnableMin'])
+clip(V_CRUISE_DELTA, 2, 16)
+clip(V_CRUISE_ENABLE_MIN, 1, 80)
 LAT_MPC_N = 16
 LON_MPC_N = 32
 CONTROL_N = 17
@@ -70,7 +75,7 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
     curvature_rates = [0.0 for i in range(CONTROL_N)]
 
   # TODO this needs more thought, use .2s extra for now to estimate other delays
-  delay = CP.steerActuatorDelay + .2
+  delay = ntune_common_get('steerActuatorDelay') + .2
   current_curvature = curvatures[0]
   psi = interp(delay, T_IDXS[:CONTROL_N], psis)
   desired_curvature_rate = curvature_rates[0]
