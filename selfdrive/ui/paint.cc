@@ -424,7 +424,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f¡Æ", angleSteers);
+      snprintf(val_str, sizeof(val_str), "%.1fÂ°", angleSteers);
 
       snprintf(uom_str, sizeof(uom_str), "");
     bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "REAL STEER",
@@ -455,7 +455,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
         val_color = nvgRGBA(255, 255, 255, 200);
       }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f¡Æ", steeringAngleDeg );
+      snprintf(val_str, sizeof(val_str), "%.1fÂ°", steeringAngleDeg );
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
@@ -515,7 +515,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // temp is alway in C * 10
-      snprintf(val_str, sizeof(val_str), "%.1f¡Æ", cpuTemp);
+      snprintf(val_str, sizeof(val_str), "%.1fÂ°", cpuTemp);
       snprintf(uom_str, sizeof(uom_str), "");
     bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "CPU TEMP",
         bb_rx, bb_ry, bb_uom_dx,
@@ -539,9 +539,9 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
 //    if(ambientTemp > 50.f) {
 //      val_color = nvgRGBA(255, 0, 0, 200);
 //    }
-//    snprintf(val_str, sizeof(val_str), "%.1f¡Æ", ambientTemp);
+//    snprintf(val_str, sizeof(val_str), "%.1fÂ°", ambientTemp);
 //    snprintf(uom_str, sizeof(uom_str), "");
-//    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "Eon¿Âµµ",
+//    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "Eonì˜¨ë„",
 //        bb_rx, bb_ry, bb_uom_dx,
 //        val_color, lab_color, uom_color,
 //        value_fontSize, label_fontSize, uom_fontSize );
@@ -560,7 +560,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
 
 //    int batteryPercent = device_state.getBatteryPercent();
 
-    snprintf(val_str, sizeof(val_str), "%.1f¡Æ", batteryTemp);
+    snprintf(val_str, sizeof(val_str), "%.1fÂ°", batteryTemp);
     snprintf(uom_str, sizeof(uom_str), "");
     bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "BAT TEMP",
         bb_rx, bb_ry, bb_uom_dx,
@@ -647,7 +647,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     }
     else {snprintf(val_str, sizeof(val_str), "%d", (s->scene.engineRPM));}
     snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "¿£Áø RPM",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "ì—”ì§„ RPM",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
