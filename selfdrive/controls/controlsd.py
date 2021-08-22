@@ -161,6 +161,7 @@ class Controls:
     self.v_cruise_kph_limit = 0
     self.curve_speed_ms = 255.
 
+    self.wide_camera = TICI and params.get_bool('EnableWideCamera')
 
     # TODO: no longer necessary, aside from process replay
     self.sm['liveParameters'].valid = True
@@ -613,7 +614,7 @@ class Controls:
       l_lane_change_prob = meta.desirePrediction[Desire.laneChangeLeft - 1]
       r_lane_change_prob = meta.desirePrediction[Desire.laneChangeRight - 1]
 # Neokii's cameraOffset
-      cameraOffset = ntune_common_get("cameraOffset")
+      cameraOffset = ntune_common_get("cameraOffset") + 0.08 if self.wide_camera else ntune_common_get("cameraOffset")
       l_lane_close = left_lane_visible and (self.sm['modelV2'].laneLines[1].y[0] > -(1.08 + cameraOffset))
       r_lane_close = right_lane_visible and (self.sm['modelV2'].laneLines[2].y[0] < (1.08 - cameraOffset))
 
