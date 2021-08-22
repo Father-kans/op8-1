@@ -8,7 +8,7 @@ import struct
 from threading import Thread
 from cereal import messaging
 from common.params import Params
-from common.numpy_fast import interp, clip
+from common.numpy_fast import interp
 from common.realtime import sec_since_boot
 from selfdrive.kegman_kans_conf import kegman_kans_conf
 
@@ -164,16 +164,11 @@ class RoadLimitSpeedServer:
 
   def get_limit_val(self, key, default=None):
 
-    try:
-      if self.json_road_limit is None:
-        return default
+    if self.json_road_limit is None:
+      return default
 
-      if key in self.json_road_limit:
-        return self.json_road_limit[key]
-
-    except:
-      pass
-
+    if key in self.json_road_limit:
+      return self.json_road_limit[key]
     return default
 
 
@@ -201,7 +196,6 @@ def main():
             dat.roadLimitSpeed.camLimitSpeed = server.get_limit_val("cam_limit_speed", 0)
             dat.roadLimitSpeed.sectionLimitSpeed = server.get_limit_val("section_limit_speed", 0)
             dat.roadLimitSpeed.sectionLeftDist = server.get_limit_val("section_left_dist", 0)
-            dat.roadLimitSpeed.camSpeedFactor = server.get_limit_val("cam_speed_factor", CAMERA_SPEED_FACTOR)
             roadLimitSpeed.send(dat.to_bytes())
 
           server.check()
@@ -252,7 +246,6 @@ class RoadSpeedLimiter:
 
       section_limit_speed = self.roadLimitSpeed.sectionLimitSpeed
       section_left_dist = self.roadLimitSpeed.sectionLeftDist
-      camSpeedFactor = clip(self.roadLimitSpeed.camSpeedFactor, 1.0, 1.1)
 
       if is_highway is not None:
         if is_highway:
@@ -301,7 +294,7 @@ class RoadSpeedLimiter:
           else:
             pp = 0
 
-          return cam_limit_speed * camSpeedFactor + int(
+          return cam_limit_speed * CAMERA_SPEED_FACTOR + int(
             pp * diff_speed), cam_limit_speed, cam_limit_speed_left_dist, first_started, log
 
         self.slowing_down = False
@@ -316,7 +309,7 @@ class RoadSpeedLimiter:
           else:
             first_started = False
 
-          return section_limit_speed * camSpeedFactor, section_limit_speed, section_left_dist, first_started, log
+          return section_limit_speed * CAMERA_SPEED_FACTOR, section_limit_speed, section_left_dist, first_started, log
 
         self.slowing_down = False
         return 0, section_limit_speed, section_left_dist, False, log
