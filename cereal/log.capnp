@@ -291,7 +291,7 @@ struct CanData {
 struct DeviceState @0xa4d8b5af2aa492eb {
   freeSpacePercent @7 :Float32;
   memoryUsagePercent @19 :Int8;
-  cpuUsagePercent @20 :Int8;
+  cpuUsagePercent @20 :List(Int8);
   gpuUsagePercent @33 :Int8;
   usbOnline @12 :Bool;
   networkType @22 :NetworkType;
