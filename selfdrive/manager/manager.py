@@ -40,7 +40,7 @@ def manager_init():
     ("OpenpilotEnabledToggle", "1"),
     ("CommunityFeaturesToggle", "1"),
     ("IsMetric", "1"),
-    ("CustomLeadMark", "0")
+    ("CustomLeadMark", "1")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))

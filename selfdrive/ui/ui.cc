@@ -145,14 +145,6 @@ static void update_state(UIState *s) {
     scene.dm_active = sm["driverMonitoringState"].getDriverMonitoringState().getIsActiveMode();
   }
 
-  if (scene.started && sm.updated("controlsState")) {
-    scene.controls_state = sm["controlsState"].getControlsState();
-    s->scene.angleSteers  = scene.controls_state.getAngleSteers();
-  }
-  if (sm.updated("carState")) {
-    scene.car_state = sm["carState"].getCarState();
-    s->scene.engineRPM = scene.car_state.getEngineRPM();
-  }
   if (sm.updated("modelV2") && s->vg) {
     auto model = sm["modelV2"].getModelV2();
     update_model(s, model);
@@ -235,7 +227,7 @@ static void update_params(UIState *s) {
   if (frame % (5*UI_FREQ) == 0) {
     Params params;
     scene.is_metric = params.getBool("IsMetric");
-    s->custom_lead_mark = params.getBool("CustomLeadMark");
+    s->custom_lead_mark = true; // params.getBool("CustomLeadMark");
   }
 }
 
