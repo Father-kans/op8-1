@@ -63,9 +63,9 @@ void Sidebar::updateState(const UIState &s) {
   ItemStatus connectstatus;
   auto last_ping = deviceState.getLastAthenaPingTime();
   if (last_ping == 0) {
-    connectstatus = params.getBool("PrimeRedirected") ? ItemStatus{"NO\nPRIME", danger_color} : ItemStatus{"CONNECT\nOFFLINE", warning_color};
+    connectstatus = params.getBool("PrimeRedirected") ? ItemStatus{"프라임\n없음", danger_color} : ItemStatus{"프라임\n연결안됨", warning_color};
   } else {
-    connectstatus = nanos_since_boot() - last_ping < 80e9 ? ItemStatus{"CONNECT\nONLINE", good_color} : ItemStatus{"CONNECT\nERROR", danger_color};
+    connectstatus = nanos_since_boot() - last_ping < 80e9 ? ItemStatus{"프라임\n연결됨", good_color} : ItemStatus{"프라임\nERROR", danger_color};
   }
   setProperty("connectStatus", QVariant::fromValue(connectstatus));
   m_battery_img = deviceState.getBatteryStatus() == "Charging" ? 1 : 0;
@@ -80,9 +80,9 @@ void Sidebar::updateState(const UIState &s) {
   }
   setProperty("tempStatus", QVariant::fromValue(ItemStatus{QString("%1°C").arg((int)deviceState.getAmbientTempC()), tempColor}));
 
-  ItemStatus pandaStatus = {"VEHICLE\nONLINE", good_color};
+  ItemStatus pandaStatus = {"차량판다\n연결됨", good_color};
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
-    pandaStatus = {"NO\nPANDA", danger_color};
+    pandaStatus = {"차량판다\n연결안됨", danger_color};
   } /*else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
     pandaStatus = {"GPS\nSEARCHING", warning_color};
   }*/
@@ -137,7 +137,7 @@ void Sidebar::paintEvent(QPaintEvent *event) {
 
   // metrics
   configFont(p, "Open Sans", 35, "Regular");
-  drawMetric(p, "온도", temp_status.first, temp_status.second, 355);
+  drawMetric(p, "EON온도", temp_status.first, temp_status.second, 355);
   drawMetric(p, panda_status.first, "", panda_status.second, 518);
   drawMetric(p, connect_status.first, "", connect_status.second, 676);
 }
