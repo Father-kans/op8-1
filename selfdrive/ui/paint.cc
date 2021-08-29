@@ -698,14 +698,10 @@ static void bb_ui_draw_debug(UIState *s)
 {
     const UIScene *scene = &s->scene;
     char str[1024];
-
     int y = 40;
     const int height = 60;
-
     nvgTextAlign(s->vg, NVG_ALIGN_LEFT | NVG_ALIGN_BASELINE);
-
-    const int text_x = 260; //*s->viz_rect.centerX() + s->viz_rect.w * 10 / 55;*
-
+    const int text_x = 260; //*s->viz_rect.centerX() + s->viz_rect.w * 10 / 55;
     auto controls_state = (*s->sm)["controlsState"].getControlsState();
     auto car_control = (*s->sm)["carControl"].getCarControl();
 
@@ -846,7 +842,8 @@ static void ui_draw_vision_event(UIState *s) {
   const int viz_event_w = 220;
   const int viz_event_x = s->fb_w - radius * 2 - bdr_s * 2 - 240;
   const int viz_event_y = radius  - (bdr_s * 2);
-  if (s->scene.controls_state.getDecelForModel() && s->scene.controls_state.getEnabled()) {
+  auto controls_state = (*s->sm)["controlsState"].getControlsState();
+  if (controls_state.getDecelForModel() && controls_state.getEnabled()) {
     // draw winding road sign
     const int img_turn_size = 160*1.5*0.82;
     const int img_turn_x = viz_event_x-(img_turn_size/4)+80;
@@ -866,11 +863,12 @@ static void ui_draw_vision_event(UIState *s) {
     const int img_wheel_size = bg_wheel_size*1.5;
     const int img_wheel_x = bg_wheel_x-(img_wheel_size/2);
     const int img_wheel_y = bg_wheel_y-45;
-    const float img_rotation = s->scene.angleSteers/180*3.141592;
+    float angleSteers = controls_state.getAngleSteers();
+    const float img_rotation = angleSteers/180*3.141592;
     float img_wheel_alpha = 0.1f;
-    bool is_engaged = (s->status == STATUS_ENGAGED) && !s->scene.controls_state.getSteerOverride();
+    bool is_engaged = (s->status == STATUS_ENGAGED) && !controls_state.getSteerOverride();
     bool is_warning = (s->status == STATUS_WARNING);
-    bool is_engageable = s->scene.controls_state.getEngageable();
+    bool is_engageable = controls_state.getEngageable();
     if (is_engaged || is_warning || is_engageable) {
       nvgBeginPath(s->vg);
       nvgCircle(s->vg, bg_wheel_x, (bg_wheel_y + (bdr_is*1.5)), bg_wheel_size);
