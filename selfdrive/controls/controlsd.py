@@ -28,7 +28,7 @@ from selfdrive.controls.lib.vehicle_model import VehicleModel
 from selfdrive.locationd.calibrationd import Calibration
 from selfdrive.hardware import HARDWARE, TICI, EON
 from selfdrive.manager.process_config import managed_processes
-from selfdrive.ntune import ntune_common_get, ntune_common_enabled, ntune_scc_get
+from selfdrive.ntune import ntune_common_get, ntune_common_enabled
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed
 
 LDW_MIN_SPEED = 31 * CV.MPH_TO_MS

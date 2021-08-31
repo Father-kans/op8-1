@@ -293,17 +293,17 @@ static void update_status(UIState *s) {
 
 static void update_extras(UIState *s)
 {
-   UIScene &scene = s->scene;
-   SubMaster &sm = *(s->sm);
+  UIScene &scene = s->scene;
+  SubMaster &sm = *(s->sm);
 
-   if(sm.updated("carControl"))
+  if(sm.updated("carControl"))
     scene.car_control = sm["carControl"].getCarControl();
 
-   if(sm.updated("liveParameters"))
+  if(sm.updated("liveParameters"))
     scene.live_params = sm["liveParameters"].getLiveParameters();
 
 
-   if (sm.updated("radarState") && s->vg) {
+  if (sm.updated("radarState") && s->vg) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
     if (sm.rcv_frame("modelV2") > 0) {
       line = sm["modelV2"].getModelV2().getPosition();
@@ -311,11 +311,11 @@ static void update_extras(UIState *s)
     update_leads_radar(s, sm["radarState"].getRadarState(), line);
   }
 
-   if(s->awake)
-   {
-        int touch_x = -1, touch_y = -1;
-        int touched = touch_poll(&(s->touch), &touch_x, &touch_y, 0);
-        dashcam(s, touch_x, touch_y);
+  if(s->awake)
+  {
+    int touch_x = -1, touch_y = -1;
+    int touched = touch_poll(&(s->touch), &touch_x, &touch_y, 0);
+    dashcam(s, touch_x, touch_y);
    }
 }
 
