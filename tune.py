@@ -76,7 +76,7 @@ while True:
   print("")
   print ("1,2,3,4,5,6,7 to incr 1.0,0.1,0.01,0.001,0.0001,0.00001, 0.000001")
   print ("q,w,e,r,t,y,u to decr 1.0,0.1,0.01,0.001,0.0001,0.00001, 0.000001")
-  print ("a / S / D to make the value 0 / 1 / 2")
+  print ("a / s / d to make the value 0 / 1 / 2")
   print ("press SPACE / m for next /prev parameter")
   print ("press z to quit")
 
@@ -143,11 +143,11 @@ while True:
     kegman_kans.conf[param[j]] = "0"
     write_json = True
 
-  elif (char == "S"):
+  elif (char == "s"):
     kegman_kans.conf[param[j]] = "1"
     write_json = True
 
-  elif (char == "D"):
+  elif (char == "d"):
     kegman_kans.conf[param[j]] = "2"
     write_json = True
 
@@ -168,9 +168,6 @@ while True:
 
   if float(kegman_kans.conf['tuneGernby']) != 1 and float(kegman_kans.conf['tuneGernby']) != 0:
     kegman_kans.conf['tuneGernby'] = "1"
-
-#  if float(kegman_kans.conf['accelerationMode']) != 0 and float(kegman_kans.conf['accelerationMode']) != 1 and float(kegman_kans.conf['accelerationMode'] != "2"):
-#    kegman_kans.conf['accelerationMode'] = "1"
 
   if float(kegman_kans.conf['Kp']) < 0 and float(kegman_kans.conf['Kp']) != -1:
     kegman_kans.conf['Kp'] = "0"
@@ -197,17 +194,7 @@ while True:
   if float(kegman_kans.conf['Kf']) > 0.01:
     kegman_kans.conf['Kf'] = "0.01"
 
-  # if float(kegman_kans.conf['Kf']) < 0.00001:
   kegman_kans.conf['Kf'] = str("{:.6f}".format(float(kegman_kans.conf['Kf'])))
-
-#  if float(kegman_kans.conf['steerRatio']) < 1 and float(kegman_kans.conf['steerRatio']) != -1:
-#    kegman_kans.conf['steerRatio'] = "1"
-#
-#  if float(kegman_kans.conf['steerRateCost']) < 0.01 and float(kegman_kans.conf['steerRateCost']) != -1:
-#    kegman_kans.conf['steerRateCost'] = "0.01"
-#
-#  if float(kegman_kans.conf['steerActuatorDelay']) < 0.1 and float(kegman_kans.conf['steerActuatorDelay']) != -1:
-#    kegman_kans.conf['steerRateCost'] = "0.1"
 
   if float(kegman_kans.conf['steerLimitTimer']) < 0.1 and float(kegman_kans.conf['steerLimitTimer']) != -1:
     kegman_kans.conf['steerLimitTimer'] = "0.1"
@@ -247,30 +234,6 @@ while True:
 
   if float(kegman_kans.conf['STOPPING_DISTANCE']) > 3:
     kegman_kans.conf['STOPPING_DISTANCE'] = "3"
-
-#  if float(kegman_kans.conf['sR_boost']) < 0:
-#    kegman_kans.conf['sR_boost'] = "0"
-#
-#  if float(kegman_kans.conf['sR_BP0']) < 0:
-#    kegman_kans.conf['sR_BP0'] = "0"
-#
-#  if float(kegman_kans.conf['sR_BP1']) < 0:
-#    kegman_kans.conf['sR_BP1'] = "0"
-#
-#  if float(kegman_kans.conf['sR_time']) < 1:
-#    kegman_kans.conf['sR_time'] = "1"
-#
-#  if float(kegman_kans.conf['slowOnCurves']) > 0.00001:
-#    kegman_kans.conf['slowOnCurves'] = "1"
-#
-#  if float(kegman_kans.conf['slowOnCurves']) <= 0.99999:
-#    kegman_kans.conf['slowOnCurves'] = "0"
-
-  if float(kegman_kans.conf['useLiveSteerRatio']) > 0.00001:
-    kegman_kans.conf['useLiveSteerRatio'] = "1"
-
-  if float(kegman_kans.conf['useLiveSteerRatio']) <= 0.99999:
-    kegman_kans.conf['useLiveSteerRatio'] = "0"
 
   if float(kegman_kans.conf['CAMERA_SPEED_FACTOR']) < 0.1 and float(kegman_kans.conf['CAMERA_SPEED_FACTOR']) != -1:
     kegman_kans.conf['CAMERA_SPEED_FACTOR'] = "0.1"
