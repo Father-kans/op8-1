@@ -82,7 +82,7 @@ class CarInterface(CarInterfaceBase):
     ret.enableCamera = is_ecu_disconnected(fingerprint[0], FINGERPRINTS, ECU_FINGERPRINT, candidate, Ecu.fwdCamera) or has_relay
     ret.openpilotLongitudinalControl = ret.enableCamera
 
-    tire_stiffness_factor = 0.444  # not optimized yet
+    tire_stiffness_factor = 0.344  # not optimized yet
 
 	# for autohold on ui icon
     ret.enableAutoHold = 241 in fingerprint[0]
@@ -94,10 +94,10 @@ class CarInterface(CarInterfaceBase):
 
 	# D gain
     ret.lateralTuning.pid.kdBP = [0.]
-    ret.lateralTuning.pid.kdV = [0.00022]  #corolla from shane fork : 0.725
-	
+    ret.lateralTuning.pid.kdV = [0.00002]  #corolla from shane fork : 0.725
+
     ret.lateralTuning.pid.kf = 0.00006  # full torque for 20 deg at 80mph means 0.00007818594
-    ret.steerRateCost = 0.2
+    ret.steerRateCost = 0.23
     ret.steerActuatorDelay = 0.115  # Default delay, not measured yet
     ret.doManualSNG = False
 
@@ -106,7 +106,7 @@ class CarInterface(CarInterfaceBase):
       ret.minEnableSpeed = -1 * CV.MPH_TO_MS
       ret.mass = 1607. + STD_CARGO_KG
       ret.wheelbase = 2.69
-      ret.steerRatio = 17
+      ret.steerRatio = 16
       ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.4  # wild guess
       ret.doManualSNG = fingerprint_match(fingerprint[0], FINGERPRINTS[CAR.VOLT][1])
@@ -168,14 +168,14 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxV = [1.4, 1.2]
 
     ret.longitudinalTuning.deadzoneBP = [0., 8.05]
-    ret.longitudinalTuning.deadzoneV = [.0, .14]
+    ret.longitudinalTuning.deadzoneV = [.0, .15]
 
     ret.longitudinalTuning.kpBP = [0., 22., 33.]
-    ret.longitudinalTuning.kpV = [2.1, 2.3, 2.0]
+    ret.longitudinalTuning.kpV = [2.0, 2.2, 1.9]
     ret.longitudinalTuning.kiBP = [0., 8., 13., 23., 33.]
-    ret.longitudinalTuning.kiV = [.35, .31, .27, .21, .13]
+    ret.longitudinalTuning.kiV = [.35, .32, .27, .21, .13]
     ret.longitudinalTuning.kfBP = [13.8, 33.]
-    ret.longitudinalTuning.kfV = [1.8, 1.5]
+    ret.longitudinalTuning.kfV = [1.7, 1.5]
     ret.brakeMaxBP = [0, 19.7, 33.]
     ret.brakeMaxV = [1.6, 1.3, 0.8]
     ret.stoppingBrakeRate = 0.1 # reach stopping target smoothly
@@ -195,7 +195,7 @@ class CarInterface(CarInterfaceBase):
 
     #brake autohold
     if not self.CS.autoholdBrakeStart and self.CS.brakePressVal > 40.0:
-      self.CS.autoholdBrakeStart = True 
+      self.CS.autoholdBrakeStart = True
 
     cruiseEnabled = self.CS.pcm_acc_status != AccState.OFF
     ret.cruiseState.enabled = cruiseEnabled
