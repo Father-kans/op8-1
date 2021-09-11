@@ -104,10 +104,6 @@ class kegman_kans_conf():
         self.config.update({"CruiseDelta":"5"})
         self.element_updated = True
 
-      if "CruiseOffset" not in self.config:
-        self.config.update({"CruiseOffset":"0"})
-        self.element_updated = True
-
       if "CruiseEnableMin" not in self.config:
         self.config.update({"CruiseEnableMin":"10"})
         self.element_updated = True
@@ -134,7 +130,7 @@ class kegman_kans_conf():
                      "1barMax":"1.6", "2barMax":"2.0", "3barMax":"2.95", "STOPPING_DISTANCE":"2.0", \
                      "ONE_BAR_DISTANCE":"1.0", "TWO_BAR_DISTANCE":"1.8", "THREE_BAR_DISTANCE":"2.7", \
                      "1barHwy":"0.4", "2barHwy":"0.3", "3barHwy":"0.2", "CruiseDelta":"5", \
-                     "CruiseOffset":"1", "CruiseEnableMin":"10", "epsModded": "0", "CAMERA_SPEED_FACTOR":"0.98"}
+                     "CruiseEnableMin":"10", "epsModded": "0", "CAMERA_SPEED_FACTOR":"0.98"}
 
 
       self.write_config(self.config)
