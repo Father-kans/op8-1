@@ -27,6 +27,7 @@ if [ ! -f "/data/openpilot/installer/boot_finish" ]; then
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/*.h
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/*.py
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/locationd/models/*.py
   sed -i -e 's/\r$//' /data/openpilot/cereal/*.py
   sed -i -e 's/\r$//' /data/openpilot/cereal/*.h
   sed -i -e 's/\r$//' /data/openpilot/cereal/*.capnp

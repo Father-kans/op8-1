@@ -34,7 +34,7 @@ class Api():
     if isinstance(token, bytes):
       token = token.decode('utf8')
     return token
-    
+
 
 def api_get(endpoint, method='GET', timeout=None, access_token=None, **params):
   headers = {}
