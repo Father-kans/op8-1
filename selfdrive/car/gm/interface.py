@@ -13,17 +13,6 @@ from selfdrive.car.interfaces import CarInterfaceBase
 ButtonType = car.CarState.ButtonEvent.Type
 EventName = car.CarEvent.EventName
 
-# checks that all key:item pairs in f1 are present in f2 (not the other way around)
-def fingerprint_match(f1, f2):
-  match = isinstance(f1, dict) and isinstance(f2, dict)
-  for k,v in f1.items():
-    if not match:
-      break
-    m = f2.get(k)
-    if not m or m != v:
-      match = False
-  return match
-
 class CarInterface(CarInterfaceBase):
 
   @staticmethod
@@ -99,7 +88,6 @@ class CarInterface(CarInterfaceBase):
     ret.lateralTuning.pid.kf = 0.00006  # full torque for 20 deg at 80mph means 0.00007818594
     ret.steerRateCost = 0.23
     ret.steerActuatorDelay = 0.115  # Default delay, not measured yet
-    ret.doManualSNG = False
 
     if candidate == CAR.VOLT:
       # supports stop and go, but initial engage must be above 18mph (which include conservatism)

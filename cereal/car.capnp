@@ -108,8 +108,6 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     driverCameraError @101;
     wideRoadCameraError @102;
     localizerMalfunction @103;
-    highCpuUsage @110;
-
     #Autohold Activate
     autoHoldActivated @105;
 
@@ -122,6 +120,8 @@ struct CarEvent @0x9b1657f34caf3ad3 {
 
     #autoResume
     accBrakeHold @109;
+
+    highCpuUsage @110;
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
@@ -458,8 +458,6 @@ struct CarParams {
   fingerprintSource @49: FingerprintSource;
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
 
-  doManualSNG @59 :Bool;
-
   struct LateralParams {
     torqueBP @0 :List(Int32);
     torqueV @1 :List(Int32);
@@ -482,10 +480,10 @@ struct CarParams {
     kpV @1 :List(Float32);
     kiBP @2 :List(Float32);
     kiV @3 :List(Float32);
-    deadzoneBP @4 :List(Float32);
-    deadzoneV @5 :List(Float32);
-    kfBP @6 :List(Float32);
-    kfV @7 :List(Float32);
+    kfBP @4 :List(Float32);
+    kfV @5 :List(Float32);
+    deadzoneBP @6 :List(Float32);
+    deadzoneV @7 :List(Float32);
   }
 
   struct LateralINDITuning {
