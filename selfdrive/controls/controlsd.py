@@ -571,6 +571,12 @@ class Controls:
 #        if left_deviation or right_deviation:
 #          self.events.add(EventName.steerSaturated)
 
+    # Ensure no NaNs/Infs
+    for p in ACTUATOR_FIELDS:
+      if not math.isfinite(getattr(actuators, p)):
+        cloudlog.error(f"actuators.{p} not finite {actuators.to_dict()}")
+        setattr(actuators, p, 0.0)
+
     return actuators, lac_log
 
   def publish_logs(self, CS, start_time, actuators, lac_log):
