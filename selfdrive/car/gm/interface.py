@@ -19,6 +19,15 @@ class CarInterface(CarInterfaceBase):
     params = CarControllerParams()
     return params.ACCEL_MIN, params.ACCEL_MAX
 
+    v_current_kph = current_speed * CV.MS_TO_KPH
+#
+#    gas_max_bp = [0., 10., 20., 50., 70., 130.]
+#    gas_max_v = [1.8, 1.15, 0.87, 0.63, 0.45, 0.33]
+
+    brake_max_bp = [0, 70., 120.]
+    brake_max_v = [1.6, 1.3, 0.8]
+
+    return interp(v_current_kph, brake_max_bp, brake_max_v)  #, interp(v_current_kph, gas_max_bp, gas_max_v)
 
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=None):
@@ -129,10 +138,12 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalTuning.kpV = [2.0, 2.2, 1.9]
     ret.longitudinalTuning.kiBP = [0., 8., 13., 23., 33.]
     ret.longitudinalTuning.kiV = [.35, .32, .27, .21, .13]
-    ret.brakeMaxBP = [0, 19.7, 33.]
-    ret.brakeMaxV = [1.6, 1.3, 0.8]
-    ret.stoppingBrakeRate = 0.1 # reach stopping target smoothly
-    ret.startingBrakeRate = 2.0 # release brakes fast
+#    ret.brakeMaxBP = [0, 19.7, 33.]
+#    ret.brakeMaxV = [1.6, 1.3, 0.8]
+#    ret.stoppingBrakeRate = 0.1 # reach stopping target smoothly
+#    ret.startingBrakeRate = 2.0 # release brakes fast
+    ret.stoppingDecelRate = 0.1  # m/s^2/s while trying to stop
+    ret.startingAccelRate = 2.0  # m/s^2/s while trying to start
     ret.startAccel = 1.2 # Accelerate from 0 faster
     ret.steerLimitTimer = 4.5
     ret.radarTimeStep = 0.0667  # GM radar runs at 15Hz instead of standard 20Hz
