@@ -5,7 +5,7 @@ from common.numpy_fast import interp
 from selfdrive.config import Conversions as CV
 # bellow for white panda
 from selfdrive.car.gm.values import CAR, Ecu, ECU_FINGERPRINT, CruiseButtons, \
-                                    AccState, FINGERPRINTS
+                                    AccState, FINGERPRINTS, CarControllerParams
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, is_ecu_disconnected, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 # FOLLOW_AGGRESSION = 0.15 # (Acceleration/Decel aggression) Lower is more aggressive
@@ -14,44 +14,11 @@ ButtonType = car.CarState.ButtonEvent.Type
 EventName = car.CarEvent.EventName
 
 class CarInterface(CarInterfaceBase):
-
   @staticmethod
-  def compute_gb(accel, speed):
-  # Ripped from compute_gb_honda in Honda's interface.py. Works well off shelf but may need more tuning
-    creep_brake = 0.0
-    creep_speed = 2.68
-    creep_brake_value = 0.10
-    if speed < creep_speed:
-      creep_brake = (creep_speed - speed) / creep_speed * creep_brake_value
-    return float(accel) / 4.8 - creep_brake
+  def get_pid_accel_limits(CP, current_speed, cruise_speed):
+    params = CarControllerParams()
+    return params.ACCEL_MIN, params.ACCEL_MAX
 
-#  @staticmethod
-#  def calc_accel_override(a_ego, a_target, v_ego, v_target):
-#
-#    # normalized max accel. Allowing max accel at low speed causes speed overshoots
-#    max_accel_bp = [10, 20]    # m/s
-#    max_accel_v = [0.85, 1.0] # unit of max accel
-#    max_accel = interp(v_ego, max_accel_bp, max_accel_v)
-#
-#    eA = a_ego - a_target
-#    valuesA = [1.0, 0.1]
-#    bpA = [0.3, 1.1]
-#
-#    eV = v_ego - v_target
-#    valuesV = [1.0, 0.1]
-#    bpV = [0.0, 0.5]
-#
-#    valuesRangeV = [1., 0.]
-#    bpRangeV = [-1., 0.]
-#
-#    # only limit if v_ego is close to v_target
-#    speedLimiter = interp(eV, bpV, valuesV)
-#    accelLimiter = max(interp(eA, bpA, valuesA), interp(eV, bpRangeV, valuesRangeV))
-#
-#    # accelOverride is more or less the max throttle allowed to pcm: usually set to a constant
-#    # unless aTargetMax is very high and then we scale with it; this help in quicker restart
-#
-#    return float(max(max_accel, a_target / FOLLOW_AGGRESSION)) * min(speedLimiter, accelLimiter)
 
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=None):
@@ -157,13 +124,12 @@ class CarInterface(CarInterfaceBase):
 
     ret.longitudinalTuning.deadzoneBP = [0., 8.05]
     ret.longitudinalTuning.deadzoneV = [.0, .15]
+    ret.longitudinalActuatorDelay = 0.2
 
     ret.longitudinalTuning.kpBP = [0., 22., 33.]
     ret.longitudinalTuning.kpV = [2.0, 2.2, 1.9]
     ret.longitudinalTuning.kiBP = [0., 8., 13., 23., 33.]
     ret.longitudinalTuning.kiV = [.35, .32, .27, .21, .13]
-    ret.longitudinalTuning.kfBP = [13.8, 33.]
-    ret.longitudinalTuning.kfV = [1.7, 1.5]
     ret.brakeMaxBP = [0, 19.7, 33.]
     ret.brakeMaxV = [1.6, 1.3, 0.8]
     ret.stoppingBrakeRate = 0.1 # reach stopping target smoothly

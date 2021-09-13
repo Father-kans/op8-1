@@ -60,8 +60,6 @@ def manager_init():
   if params.get("Passive") is None:
     raise Exception("Passive must be set to continue")
 
-  os.umask(0)  # Make sure we can create files with 777 permissions
-
   # Create folders needed for msgq
   try:
     os.mkdir("/dev/shm")
@@ -114,12 +112,11 @@ def manager_cleanup():
 
 def manager_thread():
 
-  Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",)).start()
-  Process(name="road_speed_limiter", target=launcher, args=("selfdrive.road_speed_limiter",)).start()
-
   if EON:
+    Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",)).start()
     system("am startservice com.neokii.optool/.MainService")
-    system("am startservice com.neokii.openpilot/.MainService")
+
+  Process(name="road_speed_limiter", target=launcher, args=("selfdrive.road_speed_limiter",)).start()
 
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
