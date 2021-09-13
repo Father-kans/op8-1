@@ -64,7 +64,6 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 16
       ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.4  # wild guess
-      ret.doManualSNG = fingerprint_match(fingerprint[0], FINGERPRINTS[CAR.VOLT][1])
 
     elif candidate == CAR.MALIBU:
       # supports stop and go, but initial engage must be above 18mph (which include conservatism)
