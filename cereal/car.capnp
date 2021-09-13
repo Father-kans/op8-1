@@ -405,7 +405,7 @@ struct CarParams {
   enableBsm @56 :Bool;       # blind spot monitoring
   hasStockCamera @57 :Bool;  # factory LKAS/LDW camera is present
   # Autohold
-  enableAutoHold @58 :Bool;
+  enableAutoHold @59 :Bool;
 
   minEnableSpeed @7 :Float32;
   minSteerSpeed @8 :Float32;
