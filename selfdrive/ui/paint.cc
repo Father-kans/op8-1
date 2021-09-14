@@ -647,9 +647,11 @@ static void bb_ui_draw_basic_info(UIState *s)
     auto car_params = (*s->sm)["carParams"].getCarParams();
     auto live_params = (*s->sm)["liveParameters"].getLiveParameters();
 
-    snprintf(str, sizeof(str), "SR(%.2f) SRC(%.2f) SAD(%.2f) AO(%.2f/%.2f)", controls_state.getSteerRatio(),
+    snprintf(str, sizeof(str), "SR(%.2f) SRC(%.2f) SAD(%.2f) LAD(%.2f) AO(%.2f/%.2f)",
+	                                                    controls_state.getSteerRatio(),
                                                         controls_state.getSteerRateCost(),
                                                         controls_state.getSteerActuatorDelay(),
+                                                        controls_state.getLongitudinalActuatorDelay(),
                                                         live_params.getAngleOffsetDeg(),
                                                         live_params.getAngleOffsetAverageDeg());
 
@@ -678,7 +680,6 @@ static void bb_ui_draw_debug(UIState *s)
     auto car_control = (*s->sm)["carControl"].getCarControl();
     auto car_state = (*s->sm)["carState"].getCarState();
 
-    float applyAccel = controls_state.getApplyAccel();
     int longControlState = (int)controls_state.getLongControlState();
     float vPid = controls_state.getVPid();
     float upAccelCmd = controls_state.getUpAccelCmd();
@@ -713,10 +714,6 @@ static void bb_ui_draw_debug(UIState *s)
 
     y += height;
     snprintf(str, sizeof(str), "Accel: %.3f", accel);
-    ui_draw_text(s, text_x, y, str, 25 * 2.5, textColor, "sans-regular");
-
-    y += height;
-    snprintf(str, sizeof(str), "Apply Accel: %.3f", applyAccel);
     ui_draw_text(s, text_x, y, str, 25 * 2.5, textColor, "sans-regular");
 }
 

@@ -28,7 +28,7 @@ from selfdrive.controls.lib.vehicle_model import VehicleModel
 from selfdrive.locationd.calibrationd import Calibration
 from selfdrive.hardware import HARDWARE, TICI, EON
 from selfdrive.manager.process_config import managed_processes
-from selfdrive.ntune import ntune_common_get, ntune_common_enabled
+from selfdrive.ntune import ntune_common_get, ntune_common_enabled, ntune_scc_get
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed
 
 LDW_MIN_SPEED = 31 * CV.MPH_TO_MS
@@ -160,7 +160,6 @@ class Controls:
     self.road_limit_left_dist = 0
     self.v_cruise_kph_limit = 0
     self.curve_speed_ms = 255.
-
     self.wide_camera = TICI and params.get_bool('EnableWideCamera')
 
     # TODO: no longer necessary, aside from process replay
@@ -692,6 +691,7 @@ class Controls:
     controlsState.steerRateCost = ntune_common_get('steerRateCost')
     controlsState.steerActuatorDelay = ntune_common_get('steerActuatorDelay')
 
+    controlsState.longitudinalActuatorDelay = ntune_scc_get('longitudinalActuatorDelay')
 
     if self.joystick_mode:
       controlsState.lateralControlState.debugState = lac_log

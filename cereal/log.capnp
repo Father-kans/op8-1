@@ -320,7 +320,7 @@ struct DeviceState @0xa4d8b5af2aa492eb {
   memoryTempC @28 :Float32;
   ambientTempC @30 :Float32;
   thermalStatus @14 :ThermalStatus;
-  
+
   wifiIpAddress @35 :Text;
 
   enum ThermalStatus {
@@ -569,7 +569,7 @@ struct ControlsState @0x97ff69c53601abf1 {
   # Road Speed Limiter
   roadLimitSpeed @64 :Int32;
   roadLimitSpeedLeftDist @65 :Int32;
-  
+
   # Ui display
   steerRatio @60 :Float32;
   steerRateCost @61 :Float32;
@@ -582,7 +582,7 @@ struct ControlsState @0x97ff69c53601abf1 {
     angleState @58 :LateralAngleState;
     debugState @59 :LateralDebugState;
   }
-  applyAccel @66 :Float32;
+  longitudinalActuatorDelay @66 :Float32;
 
   enum OpenpilotState @0xdbe58b96d2d1ac61 {
     disabled @0;

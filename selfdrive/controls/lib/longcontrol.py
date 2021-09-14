@@ -7,6 +7,7 @@ from selfdrive.kegman_kans_conf import kegman_kans_conf
 
 kegman_kans = kegman_kans_conf()
 LongCtrlState = car.CarControl.Actuators.LongControlState
+from selfdrive.ntune import ntune_scc_get
 
 STOPPING_EGO_SPEED = 0.6
 STOPPING_TARGET_SPEED_OFFSET = 0.01
@@ -82,9 +83,10 @@ class LongControl():
     # Interp control trajectory
     # TODO estimate car specific lag, use .15s for now
     if len(long_plan.speeds) == CONTROL_N:
-      v_target = interp(CP.longitudinalActuatorDelay, T_IDXS[:CONTROL_N], long_plan.speeds)
+      longitudinalActuatorDelay = ntune_scc_get("longitudinalActuatorDelay")
+      v_target = interp(longitudinalActuatorDelay, T_IDXS[:CONTROL_N], long_plan.speeds)
       v_target_future = long_plan.speeds[-1]
-      a_target = 2 * (v_target - long_plan.speeds[0])/CP.longitudinalActuatorDelay - long_plan.accels[0]
+      a_target = 2 * (v_target - long_plan.speeds[0])/longitudinalActuatorDelay - long_plan.accels[0]
     else:
       v_target = 0.0
       v_target_future = 0.0
