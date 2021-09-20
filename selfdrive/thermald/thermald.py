@@ -12,7 +12,7 @@ from smbus2 import SMBus
 import cereal.messaging as messaging
 from cereal import log
 from common.filter_simple import FirstOrderFilter
-from common.numpy_fast import clip, interp
+from common.numpy_fast import interp
 from common.params import Params, ParamKeyType
 from common.realtime import DT_TRML, sec_since_boot
 from common.dict_helpers import strip_deprecated_keys
@@ -149,7 +149,7 @@ def check_car_battery_voltage(should_start, pandaState, charging_disabled, msg):
   #   - 12V battery voltage is too low, and;
   #   - onroad isn't started
   print(pandaState)
-  
+
   if charging_disabled and (pandaState is None or pandaState.pandaState.voltage > (int(kegman_kans.conf['carVoltageMinEonShutdown'])+500)) and msg.deviceState.batteryPercent < int(kegman_kans.conf['battChargeMin']):
     charging_disabled = False
     os.system('echo "1" > /sys/class/power_supply/battery/charging_enabled')
@@ -219,7 +219,7 @@ def thermald_thread():
   restart_triggered_ts = 0.
 
   # TODO: use PI controller for UNO
-  controller = PIController(k_p=0, k_i=2e-3, k_d=3e-4, neg_limit=-80, pos_limit=0, rate=(1 / DT_TRML))
+  controller = PIController(k_p=0, k_i=2e-3, neg_limit=-80, pos_limit=0, rate=(1 / DT_TRML))
 
   if params.get_bool("IsOnroad"):
     cloudlog.event("onroad flag not cleared")
@@ -418,7 +418,7 @@ def thermald_thread():
     set_offroad_alert_if_changed("Offroad_TemperatureTooHigh", (not startup_conditions["device_temp_good"]))
     startup_conditions["hardware_supported"] = pandaState is not None
     set_offroad_alert_if_changed("Offroad_HardwareUnsupported", pandaState is not None and not startup_conditions["hardware_supported"])
-	
+
     if TICI:
       set_offroad_alert_if_changed("Offroad_NvmeMissing", (not Path("/data/media").is_mount()))
 
@@ -450,7 +450,7 @@ def thermald_thread():
     else:
       msg.deviceState.batteryStatus = "Charging"
 
-    
+
     msg.deviceState.chargingDisabled = charging_disabled
 
     # Offroad power monitoring
