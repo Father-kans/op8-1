@@ -658,7 +658,7 @@ static void bb_ui_draw_basic_info(UIState *s)
     int x = bdr_s * 2;
     int y = s->fb_h - 25;
     nvgBeginPath(s->vg);
-    nvgRect(s->vg, x-40, y-27, 950, 50);
+    nvgRect(s->vg, x-40, y-27, 1150, 50);
     NVGcolor squareColor = nvgRGBA(34, 139, 34, 200);
     nvgFillColor(s->vg, squareColor);
     nvgFill(s->vg);
