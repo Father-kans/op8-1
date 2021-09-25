@@ -114,8 +114,19 @@ else:
   cflags = []
   cxxflags = []
   cpppath = []
+  rpath = []
 
-  if arch == "Darwin":
+  if arch == "jarch64":
+    libpath = [
+      "#phonelibs/libyuv/larch64/lib",
+      "#selfdrive/common",
+      "/usr/lib",
+      "/usr/local/lib",
+    ]
+    cflags = ["-DXNX", "-march=armv8.2-a"]
+    cxxflags = ["-DXNX", "-march=armv8.2-a"]
+    rpath += ["/usr/local/lib"]
+  elif arch == "Darwin":
     yuv_dir = "mac" if real_arch != "arm64" else "mac_arm64"
     libpath = [
       f"#phonelibs/libyuv/{yuv_dir}/lib",
@@ -143,8 +154,9 @@ else:
       "/usr/local/lib",
     ]
 
-  rpath = [
-    "phonelibs/snpe/x86_64-linux-clang",
+  if arch != "jarch64":
+    rpath += ["phonelibs/snpe/x86_64-linux-clang"]
+  rpath += [
     "cereal",
     "selfdrive/common"
   ]
@@ -313,7 +325,7 @@ else:
   qt_dirs += [f"/usr/include/{real_arch}-linux-gnu/qt5/Qt{m}" for m in qt_modules]
 
   qt_libs = [f"Qt5{m}" for m in qt_modules]
-  if arch == "larch64":
+  if arch == "larch64" or arch == "jarch64":
     qt_libs += ["GLESv2", "wayland-client"]
   elif arch != "Darwin":
     qt_libs += ["GL"]
@@ -346,7 +358,8 @@ if GetOption("clazy"):
   qt_env['ENV']['CLAZY_IGNORE_DIRS'] = qt_dirs[0]
   qt_env['ENV']['CLAZY_CHECKS'] = ','.join(checks)
 
-Export('env', 'qt_env', 'arch', 'real_arch', 'SHARED', 'USE_WEBCAM')
+zmq = 'zmq'
+Export('env', 'qt_env', 'arch', 'real_arch', 'SHARED', 'USE_WEBCAM', 'zmq')
 
 SConscript(['selfdrive/common/SConscript'])
 Import('_common', '_gpucommon', '_gpu_libs')
